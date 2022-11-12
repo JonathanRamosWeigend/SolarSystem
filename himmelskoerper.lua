@@ -8,13 +8,14 @@
 Himmelskoerper = {}
 Himmelskoerper.__index = Himmelskoerper
 
-function Himmelskoerper.new (name, masse, radius, position, geschwindigkeit)  
+function Himmelskoerper.new (name, masse, radius, position, geschwindigkeit, farbe)  
   local instance = setmetatable({}, Himmelskoerper)
   instance.name = name
   instance.masse = masse
   instance.radius = radius
   instance.position = position
   instance.geschwindigkeit = geschwindigkeit
+  instance.farbe = farbe
   return instance
 end
 
@@ -25,4 +26,5 @@ function Himmelskoerper:print()
   print("  Radius in km: ", self.radius)
   print("  Position in km: ", self.position)
   print("  Geschwindigkeit: ", self.geschwindigkeit, "\n")
+  print("  Farbe: ", self.farbe, "\n")
 end

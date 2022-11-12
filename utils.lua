@@ -1,4 +1,3 @@
-
 ---A helper function to print a table's contents.
 ---@param tbl table @The table to print.
 ---@param depth number @The depth of sub-tables to traverse through and print.
@@ -44,3 +43,4 @@ function PrintTable(tbl, depth, n)
       print(" ");
   end
 end
+
