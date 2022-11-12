@@ -4,8 +4,13 @@ phi = 180
 radius = 100
 
 function printCounter() 
-    love.graphics.print(z   , 700, 500)
+    width, height = love.window.getDesktopDimensions(1)
+    love.graphics.print(z, width - 100, height - 100)
     z = z +1
+end
+
+function love.load()
+    love.window.setFullscreen(true);
 end
 
 
