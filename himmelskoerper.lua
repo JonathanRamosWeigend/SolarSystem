@@ -21,8 +21,8 @@ end
 function Himmelskoerper:print()
   print("**** Himmelskörper ****")
   print("  Name: ", self.name)
-  print("  Masse: ", self.masse)
-  print("  Radius: ", self.radius)
-  print("  Position: ", self.position)
+  print("  Masse in kg: ", self.masse)
+  print("  Radius in km: ", self.radius)
+  print("  Position in km: ", self.position)
   print("  Geschwindigkeit: ", self.geschwindigkeit, "\n")
 end
