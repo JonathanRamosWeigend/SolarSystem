@@ -31,5 +31,5 @@ end
 
 function Sonnensystem:print()
   print("**** Sonnensystem ****")
-  PrintTable(Sonnensystem.new(), 3, 0)
+  PrintTable(self, 3, 0)
 end
