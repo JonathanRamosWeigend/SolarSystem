@@ -9,17 +9,16 @@ luaunit = require('luaunit')
 himmelskoerper = require "himmelskoerper" 
 
 function testNew()
-  erde = Himmelskoerper.new("Erde", "1MioT", "16.000km", "", "")
-  sonne = Himmelskoerper.new("Sonne", "100MioT", "300.000km", "", "")
-  luaunit.assertEquals(erde.radius,"16.000km")
+  erde = Himmelskoerper.new("Erde", 1.0*10^6, 1.6*10^4, "", "")
+  sonne = Himmelskoerper.new("Sonne", 1.0*10^8, 3.0*10^5, "", "")
+  luaunit.assertEquals(erde.radius, 16000)
 end
 
 function testPrint()
-  erde = Himmelskoerper.new("Erde", "1MioT", "16.000km", "", "")
-  sonne = Himmelskoerper.new("Sonne", "100MioT", "300.000km", "", "")
+  erde = Himmelskoerper.new("Erde", 1.0*10^6, 1.6*10^4, "", "")
+  sonne = Himmelskoerper.new("Sonne", 1.0*10^8, 3.0*10^5, "", "")
   erde:print()
   sonne:print()
 end
 
 luaunit.LuaUnit.run() 
-
