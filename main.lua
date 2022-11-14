@@ -1,3 +1,8 @@
+-- --------------------------------------------------------------------------------------------------------
+-- Solar Simulation with LUA and LOVE2D
+-- (c) Jonathan Ramos Weigend, Johannes Weigend
+-- November 2022, Blumenau Brasilien
+-- --------------------------------------------------------------------------------------------------------
 require "sonnensystem" 
 require "himmelskoerper" 
 
