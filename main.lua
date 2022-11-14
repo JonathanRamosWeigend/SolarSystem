@@ -1,37 +1,48 @@
+require "sonnensystem" 
+require "himmelskoerper" 
 
-z = 0
-phi = 180
-radius = 100
+local screenSize = {} -- will be set at load
+local sonnensystem = Sonnensystem.new()
 
-function printCounter() 
-    width, height = love.window.getDesktopDimensions(1)
-    love.graphics.print(z, width - 100, height - 100)
-    z = z +1
+function love.conf(t)
+	t.console = true
 end
 
 function love.load()
     love.window.setFullscreen(true);
+    width, height = love.window.getDesktopDimensions()
+    screenSize = {width, height}
 end
 
+local counter = 0
+function printCounter() 
+    width, height = love.window.getDesktopDimensions(1)
+    love.graphics.setColor(love.math.colorFromBytes(200, 200, 200))
+    love.graphics.print(counter, screenSize[1] - 100,  screenSize[2] - 20)
+    counter = counter + 1
+end
 
 function love.draw()
-  
-    love.graphics.setColor(love.math.colorFromBytes(128, 234, 255))
-
-    x = math.cos(math.rad(phi))
-    y = math.sin(math.rad(phi))
-    x1 = x * radius
-    y1 = y * radius
-    xS = x1 + 400
-    yS = y1 + 250
-
-
-    love.graphics.circle( "fill", xS, yS, 20 )
- 
-    love.graphics.setColor(love.math.colorFromBytes(0xFC, 0xC2, 0x01))
-    love.graphics.circle( "fill", 400, 250, 10 )
-
+    drawSonnensystem()
     printCounter()
+end
 
-    phi   = (phi + 0.1) % 360
+function drawSonnensystem()
+    for name, himmelskoerper in pairs(sonnensystem) do
+        xPos = universeToScreen(himmelskoerper.position[1])
+        radius = extendToScreen(himmelskoerper.radius)
+        rgb = himmelskoerper.farbe
+        love.graphics.setColor(love.math.colorFromBytes(rgb[1], rgb[2], rgb[3]))
+        love.graphics.circle( "fill", xPos, screenSize[2] / 2.0, radius )   
+    end
+end
+
+function universeToScreen(position)
+    percentage = position / sonnensystem.getTotalSize()
+    return percentage * screenSize[1] + screenSize[1] / 2.0
+end
+
+function extendToScreen(size)
+    percentage = size / sonnensystem.getTotalSize() * 10 -- 10x bigger
+    return (percentage * screenSize[1]) + 1
 end
