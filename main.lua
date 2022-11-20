@@ -30,21 +30,28 @@ end
 function love.draw()
     drawSonnensystem()
     printCounter()
+    sonnensystem:tick()
 end
 
 function drawSonnensystem()
     for name, himmelskoerper in pairs(sonnensystem) do
-        xPos = universeToScreen(himmelskoerper.position[1])
+        xPos = universeToScreenX(himmelskoerper.position[1])
+        yPos = universeToScreenY(himmelskoerper.position[2])
         radius = extendToScreen(himmelskoerper.radius)
         rgb = himmelskoerper.farbe
         love.graphics.setColor(love.math.colorFromBytes(rgb[1], rgb[2], rgb[3]))
-        love.graphics.circle( "fill", xPos, screenSize[2] / 2.0, radius )   
+        love.graphics.circle( "fill", xPos, yPos, radius )   
     end
 end
 
-function universeToScreen(position)
+function universeToScreenX(position)
     percentage = position / sonnensystem.getTotalSize()
     return percentage * screenSize[1] + screenSize[1] / 2.0
+end
+
+function universeToScreenY(position)
+    percentage = position / sonnensystem.getTotalSize()
+    return -1 * percentage * screenSize[2] + screenSize[2] / 2.0
 end
 
 function extendToScreen(size)
