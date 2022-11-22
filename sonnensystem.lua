@@ -16,8 +16,8 @@ Sonnensystem.__index = Sonnensystem
 -- Units are kg, km, km/h 
 function Sonnensystem.new ()  
   local instance = setmetatable({}, Sonnensystem)
-  --                                    Name,     Masse:kg,   Radius:km,  Position:km,        v:km/h,         Farbe 
-  instance.sonne  = Himmelskoerper.new("Sonne",   2.0*10^30,  1391000/2,  {0*10^6,    0, 0},  {0,0,0},        color.sunny_yellow)
+  --                                    Name,     Masse:kg,   Radius:km,    Position:km,        v:km/h,         Farbe 
+  instance.sonne  = Himmelskoerper.new("Sonne",   1.0*10^30,  1391000/2,  {0*10^6,    0, 0},  {0,0,0},        color.sunny_yellow)
   instance.merkur = Himmelskoerper.new("Merkur",  3.3*10^23,  4878/2,     {58*10^6,   0, 0},  {0,172332,0},   color.cool_grey)
   instance.venus  = Himmelskoerper.new("Venus",   4.9*10^24,  12103/2,    {108*10^6,  0, 0},  {0,126072,0},   color.orangered)
   instance.erde   = Himmelskoerper.new("Erde",    6.0*10^24,  12756.28/2, {149*10^6,  0, 0},  {0, 107208,0},  color.cloudy_blue)
@@ -34,7 +34,7 @@ function Sonnensystem.new ()
 end
 
 function Sonnensystem:getTotalSize() 
-  return 12.0*10^9 
+  return 6.0*10^9
 end
 
 function Sonnensystem:print()
@@ -42,17 +42,65 @@ function Sonnensystem:print()
   PrintTable(self, 3, 0)
 end
 
+local G = 6.67430 * 10^-11
+
 -- tick = 1h
 function Sonnensystem:tick()
-  for name, himmelskoerper in pairs(self) do
-    sx = himmelskoerper.geschwindigkeit[1] * 1 -- == km/h * 1h
-    sy = himmelskoerper.geschwindigkeit[2] * 1
-    sz = himmelskoerper.geschwindigkeit[3] * 1
-    
-    posx = himmelskoerper.position[1]
-    posy = himmelskoerper.position[2]
-    posz = himmelskoerper.position[3]
+  for n1, h1 in pairs(self) do
+    for n2, h2 in pairs(self) do
+      if n1 == n2 then goto continue end
+      
+      -- Berechne Abstand r absolute (h1 <-> h2) in km
+      r = math.sqrt(
+          (h1.position[1] - h2.position[1])^2 +
+          (h1.position[2] - h2.position[2])^2 +
+          (h1.position[3] - h2.position[3])^2
+      ) 
+      -- Kollisionsprüfung
+      if r < (h1.radius * 2 + h2.radius * 2) then
+        -- todo colision
+        goto continue
+      end      
+      
+      -- Berechne Kraft nach Newton F1,F2 - Radius in km
+      F = G * h1.masse * h2.masse / (r*1000)^2
 
-    himmelskoerper.position = {posx + sx, posy + sy, posz + sz}
+      -- Berechne neue Geschwindigkeit
+      a1 = F / h1.masse -- m/s^2
+      a2 = F / h2.masse -- m/s^2
+
+      dv1 = a1  * 1000 * 24  -- Delta Geschwindigkeit 1h in km
+      dv2 = a2  * 1000 * 24-- Delta Geschwindigkeit 1h in km
+
+      -- Richtungsvektoren - Einheitsvektoren
+      v0r1 = {1/r*(h2.position[1] - h1.position[1]),
+             1/r*(h2.position[2] - h1.position[2]),
+             1/r*(h2.position[3] - h1.position[3])}
+      v0r2 = {1/r*(h1.position[1] - h2.position[1]),
+             1/r*(h1.position[2] - h2.position[2]),
+             1/r*(h1.position[3] - h2.position[3])}
+      
+     -- Neu Geschwindigkeit ist alte Geschwindigkeit + Delta * Komponente
+      h1.geschwindigkeit = {h1.geschwindigkeit[1] + v0r1[1] * dv1,
+                            h1.geschwindigkeit[2] + v0r1[2] * dv1,
+                            h1.geschwindigkeit[3] + v0r1[3] * dv1}
+      h2.geschwindigkeit = {h2.geschwindigkeit[1] + v0r2[1] * dv2,
+                            h2.geschwindigkeit[2] + v0r2[2] * dv2,
+                            h2.geschwindigkeit[3] + v0r2[3] * dv2}
+
+    end
+    ::continue::
+  end
+
+  for n, h in pairs(self) do
+    sx = h.geschwindigkeit[1]  -- == km/h * 1h
+    sy = h.geschwindigkeit[2] 
+    sz = h.geschwindigkeit[3] 
+    
+    posx = h.position[1]
+    posy = h.position[2]
+    posz = h.position[3]
+
+    h.position = {posx + sx, posy + sy, posz + sz}
   end
 end

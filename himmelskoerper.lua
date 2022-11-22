@@ -25,6 +25,6 @@ function Himmelskoerper:print()
   print("  Masse in kg: ", self.masse)
   print("  Radius in km: ", self.radius)
   print("  Position in km: ", self.position)
-  print("  Geschwindigkeit: ", self.geschwindigkeit, "\n")
+  print("  Geschwindigkeit in km/h: ", self.geschwindigkeit, "\n")
   print("  Farbe: ", self.farbe, "\n")
 end

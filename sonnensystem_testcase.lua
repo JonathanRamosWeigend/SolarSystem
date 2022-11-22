@@ -14,6 +14,9 @@ end
 
 function testPrint()
   sonnensystem = Sonnensystem.new() 
+  sonnensystem:tick()
+  sonnensystem:tick()
+  sonnensystem:tick()
   sonnensystem:print()
 end
 
