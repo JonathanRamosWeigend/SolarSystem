@@ -28,7 +28,7 @@ function printCounter()
 end
 
 function love.draw()
-    for i = 0, 300 do
+    for i = 0, 400 do
         sonnensystem:tick()
     end
     drawSonnensystem()
@@ -58,5 +58,5 @@ end
 
 function extendToScreen(size)
     percentage = size / sonnensystem.getTotalSize() * 10 -- 10x bigger
-    return (percentage * screenSize[1]) + 1
+    return (percentage * screenSize[1]) + 5
 end
