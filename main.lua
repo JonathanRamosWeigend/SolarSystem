@@ -28,9 +28,11 @@ function printCounter()
 end
 
 function love.draw()
+    for i = 0, 300 do
+        sonnensystem:tick()
+    end
     drawSonnensystem()
     printCounter()
-    sonnensystem:tick()
 end
 
 function drawSonnensystem()
