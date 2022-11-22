@@ -10,3 +10,7 @@ Simulation with Love2D Gameengine. Written in Lua.
 - See https://love2d.org/
 - See https://www.lua.org/
 
+## About me
+https://www.youtube.com/@nuclearjoni9212
+
+
